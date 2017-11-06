@@ -1,11 +1,20 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from flask.ext.uploads import UploadSet, configure_uploads, IMAGES
 
+# Adapted From https://stackoverflow.com/questions/44926465/upload-image-in-flask
 app = Flask(__name__)
+photos = UploadSet('photos', IMAGES)
 
-@app.route("/")
-def index():
+app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
+configure_uploads(app, photos)
+
+@app.route('/', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST' and 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        return filename
     return render_template('homePage.html')
 
-#Run App
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
