@@ -5,9 +5,19 @@
     <br /><br />
     <title>Upload new File</title>
     <h1>Upload new File</h1>
-    <form method=POST enctype=multipart/form-data action="{{ url_for('upload') }}">
-        <input type=file name=photo>
-        <input type="submit">
+    <form method=post enctype=multipart/form-data>
+        <p><input type=file name=file>
+        <input type=submit value=Upload>
     </form>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
 
 {% endblock %}

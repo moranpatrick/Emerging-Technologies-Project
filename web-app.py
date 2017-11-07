@@ -1,20 +1,37 @@
-from flask import Flask, render_template, request
-from flask.ext.uploads import UploadSet, configure_uploads, IMAGES
+import os
+from flask import Flask, request, redirect, url_for, flash, render_template
+from werkzeug.utils import secure_filename
 
-# Adapted From https://stackoverflow.com/questions/44926465/upload-image-in-flask
+# Adapted From http://flask.pocoo.org/docs/0.12/patterns/fileuploads/
+UPLOAD_FOLDER = 'static/img'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 app = Flask(__name__)
-photos = UploadSet('photos', IMAGES)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = "My Unreal Secret Key"
 
-app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
-configure_uploads(app, photos)
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST' and 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
-        return filename
-    return render_template('homePage.html')
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
 
+        if file.filename == '':
+            flash("You Uploaded Nothing")
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            flash("Successfully Uploaded File!")
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return render_template("homePage.html")
+        else:
+            flash("Error uploading file. Accepted file formats are: .png, .jpeg, .gif or .jpg")
+                
+    return render_template("homePage.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
