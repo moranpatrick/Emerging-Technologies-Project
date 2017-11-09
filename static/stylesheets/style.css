@@ -1,0 +1,31 @@
+#canvas {
+	position: relative;
+	border: 8px solid;
+	margin: auto;
+	margin-top: 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.navbar-header {
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+}
+.navbar-brand {float:none;}
+
+body{
+    text-align: center;
+}
+
+#result{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.flashes{
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    padding: 10px;
+}

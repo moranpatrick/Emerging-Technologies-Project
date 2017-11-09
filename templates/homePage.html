@@ -4,20 +4,57 @@
     <!--headers and content-->
     <br /><br />
     <title>Upload new File</title>
-    <h1>Upload new File</h1>
+    <h1>Upload an Image With a Digit inside</h1>
     <form method=post enctype=multipart/form-data>
-        <p><input type=file name=file>
-        <input type=submit value=Upload>
+      <input type=file name=file>
+      <input type=submit value=Upload>
     </form>
 
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class=flashes>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 
+    <br />
+    
+    <h2>Or draw a Digit On the Canvas Below</h2>
+
+		<div class="centered">
+			<canvas id="canvas" width="280" height="280"></canvas>
+		</div>
+
+		<div class="centered">
+      <button type="button" class="btn btn-success" id="myButton">Predict</button>
+      <button type="button" class="btn btn-info" id="clearButton" style="">Clear</button>
+		</div>
+
+		<div class="centered">
+			<h1 id="result"></h1>
+    </div>		
+    
+    <script src="{{url_for('static',filename='js/jquery-3.2.0.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/index.js')}}"></script>
+
+    <script type="text/javascript">   
+      $("#myButton").click(function(){
+        $('#result').text('  Predicting...');
+        var $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
+        var canvasObj = document.getElementById("canvas");
+        var img = canvasObj.toDataURL('image/png');
+        $.ajax({
+          type: "POST",
+          url: $SCRIPT_ROOT + "/predict/",
+          data: img,
+          success: function(data){
+            $('#result').text('I think the number drawn is: ' + data);
+          }
+        });
+      });
+    </script>
+    
 {% endblock %}
