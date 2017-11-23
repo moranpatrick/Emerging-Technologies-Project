@@ -1,8 +1,16 @@
-import os, re, base64
+import os, re, base64, sys
 import numpy as np
 from flask import Flask, request, redirect, url_for, flash, render_template
 from werkzeug.utils import secure_filename
 from scipy.misc import imread, imresize
+import tensorflow
+# This tells the web app where the model is saved
+sys.path.append(os.path.abspath("./model"))
+import load
+#global vars for easy reusability
+global model, graph
+#initialize these variables
+model, graph = load.init()
 
 # Adapted From http://flask.pocoo.org/docs/0.12/patterns/fileuploads/
 UPLOAD_FOLDER = 'static/img'
@@ -16,14 +24,14 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def parseImage(imgData):
+    # parse canvas bytes and save as output.png
+    imgstr = re.search(b'base64,(.*)', imgData).group(1)
+    with open('static/img/output.png','wb') as output:
+        output.write(base64.decodebytes(imgstr))
+
 @app.route('/', methods=['GET', 'POST'])
 def upload():
-    result = {
-        "error": False,
-        "message": "",
-        "digit": -1
-    }
-
     if request.method == 'POST':
         
         file = request.files['file']
@@ -56,13 +64,16 @@ def predict():
 
     # reshape image data for use in neural network
     x = x.reshape(1,28,28,1)
-    return ("Saved!")
 
-def parseImage(imgData):
-    # parse canvas bytes and save as output.png
-    imgstr = re.search(b'base64,(.*)', imgData).group(1)
-    with open('static/img/output.png','wb') as output:
-        output.write(base64.decodebytes(imgstr))
+    with graph.as_default():
+        out = model.predict(x)
+        # Print the number on the console
+        print(np.argmax(out,axis=1))
+        # Convert the response to a string to display!
+        response = np.array_str(np.argmax(out,axis=1))
+        # Return the response
+        return response
+
 
 if __name__ == '__main__':
     app.run(debug=True)
