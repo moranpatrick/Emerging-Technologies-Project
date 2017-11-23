@@ -8,7 +8,7 @@ import tensorflow
 sys.path.append(os.path.abspath("./model"))
 import load
 #global vars for easy reusability
-global model, graph
+global model, graph, file_name
 #initialize these variables
 model, graph = load.init()
 
@@ -42,18 +42,37 @@ def upload():
             result["message"] = "No File Name"
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            flash("Successfully Uploaded File!")
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file_name = filename
+            flash("Successfully Uploaded " + filename)
 
-            return render_template("homePage.html")
+            # read parsed image back in 8-bit, black and white mode (L)
+            x = imread('static/img/' + filename, mode='L')
+            x = np.invert(x)
+            x = imresize(x,(28,28))
+
+            # reshape image data for use in neural network
+            x = x.reshape(1,28,28,1)
+
+            with graph.as_default():
+                out = model.predict(x)
+                # Print the number on the console
+                print(np.argmax(out,axis=1))
+                # Convert the response to a string to display!
+                response = np.array_str(np.argmax(out,axis=1))
+                        
+                message = "I think the number in the image is: " + response
+                
+                return render_template("homePage.html", message=message)
         else:
             flash("Error uploading file. Accepted file formats are: .png, .jpeg, .gif or .jpg")
                 
     return render_template("homePage.html")
 
-@app.route('/predict/', methods=['GET','POST'])
-def predict():
+@app.route('/predict_canvas/', methods=['GET','POST'])
+def predict_canvas():
+    print("PREDICT HAS BEEN CALLED!!")
     # get data from drawing canvas and save as image
     parseImage(request.get_data())
 
@@ -73,7 +92,6 @@ def predict():
         response = np.array_str(np.argmax(out,axis=1))
         # Return the response
         return response
-
 
 if __name__ == '__main__':
     app.run(debug=True)

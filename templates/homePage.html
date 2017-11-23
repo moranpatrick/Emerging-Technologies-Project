@@ -9,6 +9,7 @@
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
+    <br />
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -19,6 +20,10 @@
         </ul>
       {% endif %}
     {% endwith %}
+    
+    <div class="centered">
+			<h1 id="result1">{{ message }}</h1>
+    </div>
 
     <br />
     
@@ -34,7 +39,7 @@
 		</div>
 
 		<div class="centered">
-			<h1 id="result"></h1>
+			<h1 id="result2"></h1>
     </div>		
     
     <script src="{{url_for('static',filename='js/jquery-3.2.0.min.js')}}"></script>
@@ -42,19 +47,25 @@
 
     <script type="text/javascript">   
       $("#myButton").click(function(){
-        $('#result').text('  Predicting...');
+        $('#result2').text('  Predicting...');
+        $('.flashes').text('');
         var $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
         var canvasObj = document.getElementById("canvas");
         var img = canvasObj.toDataURL('image/png');
         $.ajax({
           type: "POST",
-          url: $SCRIPT_ROOT + "/predict/",
+          url: $SCRIPT_ROOT + "/predict_canvas/",
           data: img,
           success: function(data){
-            $('#result').text('I think the number drawn is: ' + data);
+            $('#result2').text('I think the number drawn is: ' + data);
           }
         });
       });
+      
+      $("#clearButton").click(function(){
+        $('#result2').text('');
+      });
+
     </script>
     
 {% endblock %}
