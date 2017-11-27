@@ -4,7 +4,7 @@
     <!--headers and content-->
     <br /><br />
     <title>Upload new File</title>
-    <h1>Upload an Image With a Digit inside</h1>
+    <h2>Upload an Image With a Digit inside</h2>
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
@@ -22,14 +22,14 @@
     {% endwith %}
     
     <div class="centered">
-			<h1 id="result1">{{ message }}</h1>
+			<h3 id="result1" readonly>{{ message }}</h3>
     </div>
 
     <br />
     
-    <h2>Or draw a Digit On the Canvas Below</h2>
-
-		<div class="centered">
+    <h3>Or draw a Digit On the Canvas Below</h3>
+    
+		<div id="canvas-area">
 			<canvas id="canvas" width="280" height="280" style="cursor: crosshair;"></canvas>
 		</div>
 
@@ -38,8 +38,8 @@
       <button type="button" class="btn btn-info" id="clearButton" style="">Clear</button>
 		</div>
 
-		<div class="centered">
-			<h1 id="result2"></h1>
+		<div class="result_area">
+			<h3 id="result2"></h3>
     </div>		
     
     <script src="{{url_for('static',filename='js/jquery-3.2.0.min.js')}}"></script>

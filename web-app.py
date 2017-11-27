@@ -32,6 +32,7 @@ def parseImage(imgData):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload():
+    # Upload file adapted: http://flask.pocoo.org/docs/0.12/patterns/fileuploads/
     if request.method == 'POST':
         
         file = request.files['file']
