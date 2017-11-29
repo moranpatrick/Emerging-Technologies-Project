@@ -10,11 +10,12 @@
 [References](#references) 
 
 ## Introduction<a name = "intro"></a>   
-
+My name is Patrick Moran and this is my project repository for my fourth year Emerging Technologies Module. 
 
 [Top](#contents)  
 
-## Project Overview<a name = "overview"></a>  
+## Project Overview<a name = "overview"></a> 
+For this project, a web application is created which recognises digits in images. The user can upload an image or draw an digit on a canvas and the application will respond with a prediction. The key components of this project are [Flask](http://flask.pocoo.org/) and [Tensorflow](https://www.tensorflow.org/). The full project specifications can be found [here](https://emerging-technologies.github.io/problems/project.html).
 
 [Top](#contents) 
 

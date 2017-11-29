@@ -1,71 +1,79 @@
 <!-- Child Template Extending from base class -->
 {% extends "index.html" %}
 {% block content %}
-    <!--headers and content-->
-    <br /><br />
-    <title>Upload new File</title>
-    <h2>Upload an Image With a Digit inside</h2>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    <br />
-
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class=flashes>
-        {% for message in messages %}
-          {{ message }}
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    
-    <div class="centered">
-			<h3 id="result1" readonly>{{ message }}</h3>
-    </div>
-
-    <br />
-    
-    <h3>Or draw a Digit On the Canvas Below</h3>
-    
-		<div id="canvas-area">
-			<canvas id="canvas" width="280" height="280" style="cursor: crosshair;"></canvas>
-		</div>
-
-		<div class="centered">
-      <button type="button" class="btn btn-success" id="myButton">Predict</button>
-      <button type="button" class="btn btn-info" id="clearButton" style="">Clear</button>
-		</div>
-
-		<div class="result_area">
-			<h3 id="result2"></h3>
-    </div>		
-    
-    <script src="{{url_for('static',filename='js/jquery-3.2.0.min.js')}}"></script>
-    <script src="{{url_for('static',filename='js/index.js')}}"></script>
-
-    <script type="text/javascript">   
-      $("#myButton").click(function(){
-        $('#result2').text('  Predicting...');
-        $('.flashes').text('');
-        var $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
-        var canvasObj = document.getElementById("canvas");
-        var img = canvasObj.toDataURL('image/png');
-        $.ajax({
-          type: "POST",
-          url: $SCRIPT_ROOT + "/predict_canvas/",
-          data: img,
-          success: function(data){
-            $('#result2').text('I think the number drawn is: ' + data);
-          }
-        });
-      });
+  <br />
+  <h1>Draw a Digit on the Canvas or Upload a File</h1>
+  <!-- Div for Canvas - Position On the Left -->
+  <div style="width: 100%; overflow:auto;">
+    <div style="float:left; width: 50%">
+      <div class="canvas-section">
+        <div class="centered ">
+          <canvas id="canvas" width="280" height="280" style="cursor: crosshair;"></canvas>
+        </div>
+        <br />
+        <div class="centered">
+          <button type="button" class="btn btn-success" id="myButton">Predict</button>
+          <button type="button" class="btn btn-info" id="clearButton" style="">Clear</button>
+        </div>
       
-      $("#clearButton").click(function(){
-        $('#result2').text('');
-      });
+        <div class="result_area">
+          <h3 id="result2"></h3>
+        </div>
+      </div>
+      
+      <script src="{{url_for('static',filename='js/jquery-3.2.0.min.js')}}"></script>
+      <script src="{{url_for('static',filename='js/index.js')}}"></script>
+  
+      <script type="text/javascript">   
+        $("#myButton").click(function(){
+          $('#result2').text('  Predicting...');          
+          var $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
+          var canvasObj = document.getElementById("canvas");
+          var img = canvasObj.toDataURL('image/png');
+          $.ajax({
+            type: "POST",
+            url: $SCRIPT_ROOT + "/predict_canvas/",
+            data: img,
+            success: function(data){
+              $('#result2').text('I think the number drawn is: ' + data);
+            }
+          });
+        });
+        
+        $("#clearButton").click(function(){
+          $('#result2').text('');
+        }); 
+      </script>  
+  </div>
+  <!-- Div for File Upload - Position On the Right -->
+  <div style="float:right; width: 50%">
+      <div class="fileArea">
+          <h3>Choose a file to Upload</h3>
+          <form method=post enctype=multipart/form-data>
+            <input type=file name=file>
+            <input type=submit value=Upload>
+          </form>
+          <br />
+          <!-- Display Flash Messages - Success and Error -->
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <ul class=flashes>
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+    
+          <div class="centered">
+            <h3 id="result1" readonly>{{ message }}</h3>
+          </div>   
+        </div> 
+  </div>
+</div>
 
-    </script>
+
+ 
+
     
 {% endblock %}

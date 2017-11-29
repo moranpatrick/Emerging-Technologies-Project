@@ -1,0 +1,29 @@
+<!-- Child Template Extending from base class -->
+{% extends "index.html" %}
+{% block content %}
+    <!-- The Following Code has been adapted from https://bootsnipp.com/snippets/featured/information-card -->
+    <div class="profile">
+        <div class="[ info-card ]">
+            <img style="width: 100%" src="static/assests/me.jpg" />
+            <div class="[ info-card-details ] animate">
+                <div class="[ info-card-header ]">
+                    <h1>Patrick Moran</h1>
+                </div>
+                <div class="[ info-card-detail ]">
+                    <!-- Description -->
+                    <p>I'm Currently completing Forth Year Software Develoment at GMIT Galway. This web application, 
+                    developed for my Emerging Technologies Module, recognises digits (0-9) which are handwritten 
+                    or uploaded in a file. In order to do this, the application uses <a href="https://www.tensorflow.org/">TensorFlow</a> 
+                    and <a href="https://keras.io/">Keras</a> to train a neural network using the 
+                    <a href="https://en.wikipedia.org/wiki/MNIST_database">MNIST</a> dataset.</p>
+                    <p>Follow the GitHub link below if you would like to see more information
+                    abput this project including all of the source code.</p>
+                    <div class="social">
+                        <a href="https://github.com/moranpatrick/Emerging-Technologies-Project" class="[ social-icon github ] animate"><span class="fa fa-github-alt"></span></a>
+                        <a href="https://www.linkedin.com/in/patrick-moran-7a349014b/" class="[ social-icon linkedin ] animate"><span class="fa fa-linkedin"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

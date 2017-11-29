@@ -1,3 +1,4 @@
+# Declare All Imports
 import os, re, base64, sys
 import numpy as np
 from flask import Flask, request, redirect, url_for, flash, render_template
@@ -36,12 +37,11 @@ def upload():
     if request.method == 'POST':
         
         file = request.files['file']
-
+        # Handle no file input
         if file.filename == '':
             flash("You Didn't Secect anything to Upload!")
-            result["error"] = True
-            result["message"] = "No File Name"
             return redirect(request.url)
+
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -67,6 +67,7 @@ def upload():
                 
                 return render_template("homePage.html", message=message)
         else:
+            # Handle Wrong File Types
             flash("Error uploading file. Accepted file formats are: .png, .jpeg, .gif or .jpg")
                 
     return render_template("homePage.html")
@@ -93,6 +94,11 @@ def predict_canvas():
         response = np.array_str(np.argmax(out,axis=1))
         # Return the response
         return response
+
+@app.route('/about')
+def about():
+    # Render The About Template
+    return render_template("about.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
