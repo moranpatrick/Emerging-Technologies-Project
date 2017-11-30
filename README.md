@@ -1,5 +1,5 @@
 # Emerging Technologies Project
-
+### Patrick Moran - g00179039
 ## [Contents](#contents) 
 
 [Introduction](#intro)  
@@ -17,7 +17,7 @@ My name is Patrick Moran and this is my project repository for my Fourth Year Em
 [Top](#contents)  
 
 ## Project Overview<a name = "overview"></a> 
-For this project, a web application is created which recognises digits in images. The user can upload an image or draw an digit on a canvas and the application will respond with a prediction. The key components of this project are [Flask](http://flask.pocoo.org/) along with some [Bootstrap](https://getbootstrap.com/) and [Tensorflow](https://www.tensorflow.org/). The full project specifications can be found [here](https://emerging-technologies.github.io/problems/project.html). 
+For this project, a web application is created which recognises digits in images. The user can upload an image or draw an digit on a canvas and the application will respond with a prediction. The key components of this project are [Flask](http://flask.pocoo.org/) along with some [Bootstrap](https://getbootstrap.com/) and [Tensorflow](https://www.tensorflow.org/). The full project specifications can be found [here](https://emerging-technologies.github.io/problems/project.html).  Accuracy of approximately 99% is considered excellent in recognising digits, and this projects model accuarcy is 99.11% so sometimes it gets it wrong!.
 
 #### Design
 * On the left of the Home Page there is a canvas where the user can draw an digit (0-9). Directly underneath are two buttons:  
@@ -75,7 +75,7 @@ Here are a set of instructions if you want to run this application on your own m
 2. Download and Install Anaconda.
     * Click [here](https://www.anaconda.com/download/) to go to the downloads page.
 3. Next you need to download tensorflow.
-    * Click [here](https://www.tensorflow.org/install/) and select your OS. Then scroll down to "Installing with Anaconda" section and follow the instructions.
+    * Click [here](https://www.tensorflow.org/install/) and then select your OS. Then scroll down to "Installing with Anaconda" section and follow the instructions.
 
 4. Navigate to where you have this project downloaded.
     * Navigate into the static folder and create a folder called "img".
@@ -89,10 +89,10 @@ Here are a set of instructions if you want to run this application on your own m
     * This will install all the requirments for this project in your tensorflow envoirnment.
 
 6. The training model has allready been saved into the model folder but if you would like to see it running yourself:
-    Type the following command:
+    Navigate into the model folder and type the following command:
     > python train.py
 
-    * \*NOTE\* - The model can take anything from 25-60 minutes to complete depending on the speed of your processor. However, if you wish to see all of the output from the training model including some result graphs, check out this notebook I made. Click [here](https://github.com/moranpatrick/Emerging-Technologies-Project/blob/master/TrainingModel.ipynb).
+    * \*\*NOTE\*\* - The model can take anything from 25-60 minutes to complete depending on the speed of your processor. However, if you wish to see all of the output from the training model including some result graphs, check out this notebook I made. Click [here](https://github.com/moranpatrick/Emerging-Technologies-Project/blob/master/TrainingModel.ipynb).
 
 7. Now you are ready to run the web app.  
     Type the command:
