@@ -39,7 +39,7 @@ def upload():
         file = request.files['file']
         # Handle no file input
         if file.filename == '':
-            flash("You Didn't Secect anything to Upload!")
+            flash("You Didn't Select anything to Upload!")
             return redirect(request.url)
 
         if file and allowed_file(file.filename):

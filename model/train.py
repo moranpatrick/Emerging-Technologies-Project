@@ -90,7 +90,7 @@ model.fit(x_train, y_train,
           epochs=epochs,
           verbose=1,
           validation_data=(x_test, y_test))
- #how well did it do? 
+# 9. how well did it do? 
 score = model.evaluate(x_test, y_test, verbose=0)
 
 print('Test loss:', score[0])
@@ -105,7 +105,7 @@ true_indices = np.nonzero(y_pred == y_test)[0]
 false_indices = np.nonzero(y_pred != y_test)[0]
 print("Number of false predictions = %d (out of %d samples)" % (len(false_indices), len(y_test)))
 
-#Save the model
+# 10. Save the model
 # serialize model to JSON
 model_json = model.to_json()
 with open("model.json", "w") as json_file:
